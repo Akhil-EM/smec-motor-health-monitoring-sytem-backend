@@ -9,7 +9,6 @@ import {
 @Table({ tableName: 'motor-data' })
 export class MotorData extends Model<MotorData> {
   @Column({
-    type: DataType.BIGINT,
     allowNull: false,
     autoIncrement: true,
     unique: true,
@@ -24,45 +23,54 @@ export class MotorData extends Model<MotorData> {
 
   @Column({
     allowNull: false,
+    type: 'FLOAT',
   })
   motor_data_input_voltage: number;
 
   @Column({
     allowNull: false,
+    type: 'FLOAT',
   })
   motor_data_frequency: number;
 
   @Column({
     allowNull: false,
+    type: 'FLOAT',
   })
   motor_data_rated_current: number;
 
   @Column({
     allowNull: false,
+    type: 'FLOAT',
   })
   motor_data_starting_current: number;
 
   @Column({
+    type: 'FLOAT',
     allowNull: false,
   })
   motor_data_load: number;
 
   @Column({
+    type: 'FLOAT',
     allowNull: false,
   })
   motor_data_rpm: number;
 
   @Column({
+    type: 'FLOAT',
     allowNull: false,
   })
   motor_data_bearing_condition: number;
 
   @Column({
+    type: 'FLOAT',
     allowNull: false,
   })
   motor_data_temperature: number;
 
   @Column({
+    type: 'FLOAT',
     allowNull: false,
   })
   motor_data_vibration: number;

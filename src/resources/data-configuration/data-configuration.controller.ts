@@ -5,8 +5,10 @@ import {
   Body,
   Patch,
   Param,
+  Put,
   Delete,
 } from '@nestjs/common';
+import responseModel from 'src/common/models/api.model';
 import { DataConfigurationService } from './data-configuration.service';
 import { DataConfigurationDto } from './dto/data-configuration.dto';
 
@@ -27,23 +29,15 @@ export class DataConfigurationController {
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.dataConfigurationService.findOne(+id);
+  findOne(@Param('id') id: number) {
+    return this.dataConfigurationService.findOne(id);
   }
 
   @Patch(':id')
   update(
-    @Param('id') id: string,
-    // @Body() updateDataConfigurationDto: UpdateDataConfigurationDto,
+    @Param('id') id: number,
+    @Body() dataConfiguration: DataConfigurationDto,
   ) {
-    return this.dataConfigurationService.update(
-      +id,
-      // updateDataConfigurationDto,
-    );
-  }
-
-  @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.dataConfigurationService.remove(+id);
+    return this.dataConfigurationService.update(id, dataConfiguration);
   }
 }

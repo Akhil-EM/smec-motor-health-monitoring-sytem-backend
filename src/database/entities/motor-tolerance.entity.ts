@@ -9,7 +9,6 @@ import {
 @Table({ tableName: 'motor-tolerances' })
 export class MotorTolerance extends Model<MotorTolerance> {
   @Column({
-    type: DataType.BIGINT,
     allowNull: false,
     autoIncrement: true,
     unique: true,
