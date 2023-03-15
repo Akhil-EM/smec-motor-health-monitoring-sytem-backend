@@ -72,7 +72,6 @@ export class DataGenerationService {
               ] > 0
             ) {
               //switch action
-
               if (
                 dataCount >=
                 dataConfigurations[

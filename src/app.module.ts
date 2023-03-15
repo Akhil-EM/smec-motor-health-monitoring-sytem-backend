@@ -6,10 +6,11 @@ import { ResponseInterceptor } from './common/interceptors/response.interceptor'
 import { DatabaseModule } from './database/databse.module';
 import { MotorTypesModule } from './resources/motor-types/motor-types.module';
 import { DataConfigurationModule } from './resources/data-configuration/data-configuration.module';
-import { HttpExceptionFilter } from './filters/http-exception.filter';
+import { HttpExceptionFilter } from './common/filters/http-exception.filter';
 import { DataGenerationModule } from './resources/data-generation/data-generation.module';
 import { CronJobService } from './common/helpers/cron-job.service';
 import { ScheduleModule } from '@nestjs/schedule';
+import { GraphsModule } from './resources/graphs/graphs.module';
 
 @Module({
   imports: [
@@ -19,6 +20,7 @@ import { ScheduleModule } from '@nestjs/schedule';
     MotorTypesModule,
     DataConfigurationModule,
     DataGenerationModule,
+    GraphsModule,
   ],
   controllers: [AppController],
   providers: [
