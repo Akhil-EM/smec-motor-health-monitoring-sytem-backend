@@ -64,13 +64,6 @@ export class DataGenerationService {
                 motor_type_id: parseInt(motorId),
               },
             });
-            console.log(
-              'data debugging => ',
-              dataConfigurations[
-                'motor_data_configuration_switch_after_occurrences'
-              ],
-              dataCount,
-            );
 
             // switch after intervals added or not
             if (
@@ -79,11 +72,13 @@ export class DataGenerationService {
               ] > 0
             ) {
               //switch action
+
               if (
-                dataCount ===
+                dataCount >=
                 dataConfigurations[
                   'motor_data_configuration_switch_after_occurrences'
-                ]
+                ] -
+                  1
               ) {
                 updateFunction =
                   dataConfigurations[
