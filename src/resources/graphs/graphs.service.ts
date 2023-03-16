@@ -1,5 +1,4 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
-import convertToCamelCase from 'src/common/helpers/data-convert-to-camel-case';
 import responseModel from 'src/common/models/api.model';
 import { MotorData } from 'src/database/entities/motor-data.entity';
 import { GetGraphDto } from './dto/get-graph.dto';

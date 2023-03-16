@@ -5,7 +5,6 @@ import {
   HttpStatus,
   ConflictException,
 } from '@nestjs/common';
-import convertToCamelCase from 'src/common/helpers/data-convert-to-camel-case';
 import responseModel from 'src/common/models/api.model';
 import { MotorDataConfiguration } from 'src/database/entities/motor-data-configuration.entity';
 import { MotorType } from 'src/database/entities/motor-type.entity';
@@ -73,15 +72,13 @@ export class DataConfigurationService {
 
   async findAll() {
     try {
-      let dataConfigurations: any = await MotorDataConfiguration.findAll({
+      const dataConfigurations = await MotorDataConfiguration.findAll({
         include: {
           model: MotorType,
           attributes: ['motor_type_name'],
         },
         raw: true,
       });
-
-      dataConfigurations = convertToCamelCase(dataConfigurations);
 
       return responseModel('data configurations', {
         dataConfigurations: dataConfigurations,
@@ -93,7 +90,7 @@ export class DataConfigurationService {
 
   async findOne(id: number) {
     try {
-      let dataConfiguration: any = await MotorDataConfiguration.findOne({
+      const dataConfiguration: any = await MotorDataConfiguration.findOne({
         where: {
           motor_data_configuration_id: id,
         },
@@ -103,7 +100,6 @@ export class DataConfigurationService {
         },
         raw: true,
       });
-      dataConfiguration = convertToCamelCase(dataConfiguration);
       return responseModel('data configuration', {
         dataConfiguration: dataConfiguration,
       });

@@ -5,7 +5,6 @@ import {
 } from '@nestjs/common';
 import { HttpStatus } from '@nestjs/common/enums';
 import { HttpException } from '@nestjs/common/exceptions';
-import convertToCamelCase from 'src/common/helpers/data-convert-to-camel-case';
 import responseModel from 'src/common/models/api.model';
 import { MotorDataConfiguration } from 'src/database/entities/motor-data-configuration.entity';
 import { MotorData } from 'src/database/entities/motor-data.entity';
@@ -49,8 +48,7 @@ export class MotorTypesService {
 
   async findAll() {
     try {
-      let motors: any = await MotorType.findAll({ raw: true });
-      motors = convertToCamelCase(motors);
+      const motors: any = await MotorType.findAll({ raw: true });
       return responseModel('motors', { motors: motors });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -59,13 +57,12 @@ export class MotorTypesService {
 
   async findOne(id: number) {
     try {
-      let motor: any = await MotorType.findOne({
+      const motor: any = await MotorType.findOne({
         where: {
           motor_type_id: id,
         },
         raw: true,
       });
-      motor = convertToCamelCase(motor);
       return responseModel('motor', { motor: motor });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
