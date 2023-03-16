@@ -41,9 +41,7 @@ export class GraphsService {
         case 'vibration':
           testCondition.attributes.push('motor_data_vibration');
       }
-      let graphData: any = await MotorData.findAll(testCondition);
-      graphData = convertToCamelCase(graphData);
-
+      const graphData = await MotorData.findAll(testCondition);
       return responseModel('motor data', { graphData: graphData });
     } catch (error) {
       console.log(error);
