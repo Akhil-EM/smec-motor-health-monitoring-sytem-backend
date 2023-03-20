@@ -14,14 +14,14 @@ export const databaseProvider = [
         username: process.env.DB_USERNAME,
         password: process.env.DB_PASSWORD,
         database: process.env.DATABASE,
-        logging(sql, timing) {
-          console.log(
-            `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
-            sql,
-            '\n\n*******************************************************',
-          );
-        },
-        // logging: false,
+        // logging(sql, timing) {
+        //   console.log(
+        //     `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
+        //     sql,
+        //     '\n\n*******************************************************',
+        //   );
+        // },
+        logging: false,
       });
 
       try {

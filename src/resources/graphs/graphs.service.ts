@@ -25,14 +25,13 @@ export class GraphsService {
         attributes: [],
       };
 
-      const meanValueCondition ={
+      const meanValueCondition = {
         where: {
           motor_type_id: motorPrams.motorId,
         },
         raw: true,
         attributes: [],
       };
-
       switch (motorPrams.parameter) {
         case 'input-voltage':
           testCondition.attributes.push('motor_data_input_voltage');
@@ -42,12 +41,19 @@ export class GraphsService {
         case 'frequency':
           testCondition.attributes.push('motor_data_frequency');
           toleranceCondition.attributes.push('motor_tolerance_frequency');
-          meanValueCondition.attributes.push('motor_type__frequency');
+          meanValueCondition.attributes.push('motor_type_frequency');
           break;
         case 'rated-current':
           testCondition.attributes.push('motor_data_rated_current');
           toleranceCondition.attributes.push('motor_tolerance_rated_current');
           meanValueCondition.attributes.push('motor_type_rated_current');
+          break;
+        case 'starting-current':
+          testCondition.attributes.push('motor_data_starting_current');
+          toleranceCondition.attributes.push(
+            'motor_tolerance_starting_current',
+          );
+          meanValueCondition.attributes.push('motor_type_starting_current');
           break;
         case 'load':
           testCondition.attributes.push('motor_data_load');
@@ -77,13 +83,13 @@ export class GraphsService {
           meanValueCondition.attributes.push('motor_type_vibration');
       }
       const graphData = await MotorData.findAll(testCondition);
-      const tolerances = await MotorTolerance.findOne(toleranceCondition);
+      const tolerance = await MotorTolerance.findOne(toleranceCondition);
       const meanValue = await MotorType.findOne(meanValueCondition);
 
       return responseModel('motor data', {
         graphData: graphData,
-        tolerances: tolerances,
-        meanValue: meanValue,
+        tolerances: Object.values(tolerance)[0], //access first element
+        meanValue: Object.values(meanValue)[0],
       });
     } catch (error) {
       console.log(error);
