@@ -26,7 +26,7 @@ export class MotorTypesService {
         throw new NotAcceptableException('this motor already added');
 
       //add new motor
-      await MotorType.create({
+      const { motor_type_id } = await MotorType.create({
         motor_type_name: motorType.name,
         motor_type_remarks: motorType.remarks,
         motor_type_bearing_condition: motorType.bearingCondition,
@@ -40,6 +40,20 @@ export class MotorTypesService {
         motor_type_temperature: motorType.temperature,
       });
 
+      //add tolerances
+      await MotorTolerance.create({
+        motor_type_id: motor_type_id,
+        motor_tolerance_bearing_condition: motorType.bearingConditionTolerance,
+        motor_tolerance_frequency: motorType.frequencyTolerance,
+        motor_tolerance_input_voltage: motorType.inputVoltageTolerance,
+        motor_tolerance_load: motorType.loadTolerance,
+        motor_tolerance_rated_current: motorType.ratedCurrentTolerance,
+        motor_tolerance_rpm: motorType.rpmTolerance,
+        motor_tolerance_starting_current: motorType.startingCurrentTolerance,
+        motor_tolerance_temperature: motorType.temperatureTolerance,
+        motor_tolerance_vibration: motorType.vibrationTolerance,
+      });
+
       return responseModel('new motor type added successfully');
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -48,7 +62,12 @@ export class MotorTypesService {
 
   async findAll() {
     try {
-      const motors: any = await MotorType.findAll({ raw: true });
+      const motors: any = await MotorType.findAll({
+        raw: true,
+        include: {
+          model: MotorTolerance,
+        },
+      });
       return responseModel('motors', { motors: motors });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
@@ -62,6 +81,9 @@ export class MotorTypesService {
           motor_type_id: id,
         },
         raw: true,
+        include: {
+          model: MotorTolerance,
+        },
       });
       return responseModel('motor', { motor: motor });
     } catch (error) {
@@ -84,6 +106,27 @@ export class MotorTypesService {
           motor_type_rpm: motorType.rpm,
           motor_type_starting_current: motorType.startingCurrent,
           motor_type_temperature: motorType.temperature,
+        },
+        {
+          where: {
+            motor_type_id: id,
+          },
+        },
+      );
+
+      //update motor tolerance
+      await MotorTolerance.update(
+        {
+          motor_tolerance_bearing_condition:
+            motorType.bearingConditionTolerance,
+          motor_tolerance_frequency: motorType.frequencyTolerance,
+          motor_tolerance_input_voltage: motorType.inputVoltageTolerance,
+          motor_tolerance_load: motorType.loadTolerance,
+          motor_tolerance_rated_current: motorType.ratedCurrentTolerance,
+          motor_tolerance_rpm: motorType.rpmTolerance,
+          motor_tolerance_starting_current: motorType.startingCurrentTolerance,
+          motor_tolerance_temperature: motorType.temperatureTolerance,
+          motor_tolerance_vibration: motorType.vibrationTolerance,
         },
         {
           where: {
@@ -119,11 +162,16 @@ export class MotorTypesService {
         },
       });
 
-      if (motorDataConfigurationsCheck || motorToleranceCheck || motorDataCheck)
+      if (motorDataConfigurationsCheck || motorDataCheck)
         throw new ConflictException(
           'data associated with  this motor , unable to remove',
         );
 
+      await MotorTolerance.destroy({
+        where: {
+          motor_type_id: id,
+        },
+      });
       await MotorType.destroy({
         where: {
           motor_type_id: id,

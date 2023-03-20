@@ -52,4 +52,40 @@ export class MotorTypeDto {
   @IsNotEmpty()
   @IsNumber()
   public vibration: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public inputVoltageTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public frequencyTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public ratedCurrentTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public startingCurrentTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public loadTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public rpmTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public bearingConditionTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public temperatureTolerance: number;
+
+  @IsNotEmpty()
+  @IsNumber()
+  public vibrationTolerance: number;
 }

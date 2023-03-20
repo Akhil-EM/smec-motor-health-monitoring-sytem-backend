@@ -105,10 +105,10 @@ export class MotorDataConfiguration extends Model<MotorDataConfiguration> {
   })
   motor_data_generation_started: boolean;
 
-  @BelongsTo(() => MotorType)
-  motorType: MotorType;
-
   @CreatedAt public motor_data_configuration_created_at: Date;
 
   @UpdatedAt public motor_data_configuration_updated_at: Date;
+
+  @BelongsTo(() => MotorType)
+  motorType: MotorType;
 }

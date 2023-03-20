@@ -8,6 +8,7 @@ import {
   HasOne,
 } from 'sequelize-typescript';
 import { MotorDataConfiguration } from './motor-data-configuration.entity';
+import { MotorTolerance } from './motor-tolerance.entity';
 @Table({ tableName: 'motor-types' })
 export class MotorType extends Model<MotorType> {
   @Column({
@@ -82,10 +83,13 @@ export class MotorType extends Model<MotorType> {
   })
   motor_type_vibration: number;
 
-  @HasOne(() => MotorDataConfiguration)
-  motorDataConfiguration: MotorDataConfiguration;
-
   @CreatedAt public motor_type_created_at: Date;
 
   @UpdatedAt public motor_type_updated_at: Date;
+
+  @HasOne(() => MotorDataConfiguration)
+  motorDataConfiguration: MotorDataConfiguration;
+
+  @HasOne(() => MotorTolerance)
+  motorTolerance: MotorTolerance;
 }

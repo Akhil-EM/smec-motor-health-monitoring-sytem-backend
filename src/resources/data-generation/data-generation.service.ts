@@ -12,6 +12,13 @@ export class DataGenerationService {
   constructor(private readonly cronService: CronJobService) {}
   async stopOrGenerateData(motorId: string, action: string) {
     try {
+      const motorType = await MotorType.findOne({
+        where: {
+          motor_type_id: motorId,
+        },
+      });
+      if (!motorType)
+        throw new HttpException('motor type not found', HttpStatus.NOT_FOUND);
       const dataConfigurations = await MotorDataConfiguration.findOne({
         where: {
           motor_type_id: motorId,
@@ -21,6 +28,12 @@ export class DataGenerationService {
         },
         raw: true,
       });
+
+      if (!dataConfigurations)
+        throw new HttpException(
+          'not data configurations added.',
+          HttpStatus.NOT_FOUND,
+        );
 
       if (action === 'start') {
         //update data configuration

@@ -5,7 +5,10 @@ import {
   DataType,
   CreatedAt,
   UpdatedAt,
+  ForeignKey,
+  BelongsTo,
 } from 'sequelize-typescript';
+import { MotorType } from './motor-type.entity';
 @Table({ tableName: 'motor-tolerances' })
 export class MotorTolerance extends Model<MotorTolerance> {
   @Column({
@@ -16,6 +19,7 @@ export class MotorTolerance extends Model<MotorTolerance> {
   })
   public motor_tolerance_id: number;
 
+  @ForeignKey(() => MotorType)
   @Column({
     allowNull: false,
   })
@@ -69,4 +73,7 @@ export class MotorTolerance extends Model<MotorTolerance> {
   @CreatedAt public motor_tolerance_created_at: Date;
 
   @UpdatedAt public motor_tolerance_updated_at: Date;
+
+  @BelongsTo(() => MotorType)
+  motorType: MotorType;
 }
