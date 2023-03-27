@@ -3,27 +3,29 @@ import { MotorDataConfiguration } from './entities/motor-data-configuration.enti
 import { MotorData } from './entities/motor-data.entity';
 import { MotorTolerance } from './entities/motor-tolerance.entity';
 import { MotorType } from './entities/motor-type.entity';
+import * as dotenv from 'dotenv';
+dotenv.config();
+export const sequelize = new Sequelize({
+  dialect: 'mysql',
+  host: process.env.DB_HOST,
+  port: 3306,
+  username: process.env.DB_USERNAME,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DATABASE,
+  logging(sql, timing) {
+    console.log(
+      `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
+      sql,
+      '\n\n*******************************************************',
+    );
+  },
+  // logging: false,
+});
+
 export const databaseProvider = [
   {
     provide: 'SEQUALIZE',
     useFactory: async () => {
-      const sequelize = new Sequelize({
-        dialect: 'mysql',
-        host: process.env.DB_HOST,
-        port: 3306,
-        username: process.env.DB_USERNAME,
-        password: process.env.DB_PASSWORD,
-        database: process.env.DATABASE,
-        // logging(sql, timing) {
-        //   console.log(
-        //     `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
-        //     sql,
-        //     '\n\n*******************************************************',
-        //   );
-        // },
-        logging: false,
-      });
-
       try {
         sequelize.addModels([
           MotorType,
