@@ -33,12 +33,18 @@ export const databaseProvider = [
           MotorDataConfiguration,
           MotorTolerance,
         ]);
+        console.log('Configs =>', {
+          username: process.env.DB_USERNAME,
+          password: process.env.DB_PASSWORD,
+          database: process.env.DATABASE,
+        });
 
         await sequelize.authenticate();
         console.log('successfully connected with database...');
         await sequelize.sync({ force: true });
         console.log('database sync success');
       } catch (error) {
+        console.log(error);
         console.log('database connection error : ', error.message);
       }
     },
