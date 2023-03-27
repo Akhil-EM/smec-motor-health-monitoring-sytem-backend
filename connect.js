@@ -4,7 +4,7 @@ const sql = require('mysql2');
     await sql.createConnection({
       host: 'localhost',
       user: 'root',
-      password: '',
+      password: null,
     });
     console.log('database connection success...');
   } catch (error) {
