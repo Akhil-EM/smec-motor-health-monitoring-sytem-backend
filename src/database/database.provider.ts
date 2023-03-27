@@ -34,9 +34,9 @@ export const databaseProvider = [
           MotorTolerance,
         ]);
         console.log('Configs =>', {
-          username: process.env.DB_USERNAME,
-          password: process.env.DB_PASSWORD,
-          database: process.env.DATABASE,
+          username: process.env.DB_USERNAME || null,
+          password: process.env.DB_PASSWORD || null,
+          database: process.env.DATABASE || null,
         });
 
         await sequelize.authenticate();
