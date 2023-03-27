@@ -23,7 +23,7 @@ export class GraphsService {
             condition.attributes[1] +
             ' FROM `motor-data` WHERE motor_data_created_at <= "' +
             date +
-            '" ORDER BY motor_data_created_at DESC;',
+            '";',
         );
         graphData = data;
       } else {
