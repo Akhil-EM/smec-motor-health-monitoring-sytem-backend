@@ -36,8 +36,8 @@ export const databaseProvider = [
 
         await sequelize.authenticate();
         console.log('successfully connected with database...');
-        // await sequelize.sync({ force: true });
-        // console.log('database sync success');
+        await sequelize.sync({ force: true });
+        console.log('database sync success');
       } catch (error) {
         console.log('database connection error : ', error.message);
       }
