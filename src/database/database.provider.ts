@@ -19,6 +19,7 @@ export const sequelize = new Sequelize({
       '\n\n*******************************************************',
     );
   },
+  timezone: '+05:30',
   // logging: false,
 });
 
@@ -33,11 +34,6 @@ export const databaseProvider = [
           MotorDataConfiguration,
           MotorTolerance,
         ]);
-        console.log('Configs =>', {
-          username: process.env.DB_USERNAME || null,
-          password: process.env.DB_PASSWORD || null,
-          database: process.env.DATABASE || null,
-        });
 
         await sequelize.authenticate();
         console.log('successfully connected with database...');

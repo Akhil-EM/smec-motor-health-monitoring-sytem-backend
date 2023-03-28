@@ -3,6 +3,9 @@ import responseModel from 'src/common/models/api.model';
 import { MotorData } from 'src/database/entities/motor-data.entity';
 import { GetGraphDto } from './dto/get-graph.dto';
 import { sequelize } from 'src/database/database.provider';
+import { MotorType } from 'src/database/entities/motor-type.entity';
+import { MotorTolerance } from 'src/database/entities/motor-tolerance.entity';
+import { ParamsDto } from './dto/params.dto';
 @Injectable()
 export class GraphsService {
   async getData(motorPrams: GetGraphDto, date: string) {
@@ -41,15 +44,43 @@ export class GraphsService {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
+
+  async getDashBoardData(motorParam: ParamsDto) {
+    try {
+      const motors: any = await MotorType.findAll({
+        attributes: ['motor_type_id', 'motor_type_name'],
+        raw: true,
+        // include: {
+        //   model: MotorTolerance,
+        // },
+      });
+
+      const graphDataSet = [];
+      await Promise.all(
+        motors.map(async (motor) => {
+          const graphData = await MotorData.findOne(
+            getSelectCondition(motor['motor_type_id'], motorParam.parameter),
+          );
+          motor.dataSet = graphData;
+          graphDataSet.push(motor);
+        }),
+      );
+
+      return responseModel('motor types', { graphDataSet });
+      // return graphData;
+    } catch (error) {
+      console.log(error);
+      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+  }
 }
 
 //get select condition based on parameter
-function getSelectCondition(motrId: number, parameter: string) {
+function getSelectCondition(motrId: number, parameter: string): any {
+  const motorCondition = !motrId ? {} : { motor_type_id: motrId };
   const testCondition: any = {
     attributes: ['*', 'motor_data_created_at'],
-    where: {
-      motor_type_id: motrId,
-    },
+    where: motorCondition,
     order: [['motor_data_created_at', 'DESC']],
     raw: true,
   };

@@ -11,7 +11,7 @@ import {
 } from '@nestjs/common';
 import { GraphsService } from './graphs.service';
 import { GetGraphDto } from './dto/get-graph.dto';
-import { GetGraphPipe } from 'src/common/pipes/get-graph.pipe';
+import { ParamsDto } from './dto/params.dto';
 
 @Controller('graphs')
 export class GraphsController {
@@ -20,5 +20,11 @@ export class GraphsController {
   // @UsePipes(new GetGraphPipe())
   findOne(@Param() motorPrams: GetGraphDto, @Query('date') date: string) {
     return this.graphsService.getData(motorPrams, date);
+  }
+
+  @Get('/data/dashboard/:parameter')
+  // @UsePipes(new GetGraphPipe())
+  dashBoard(@Param() motorPram: ParamsDto) {
+    return this.graphsService.getDashBoardData(motorPram);
   }
 }
