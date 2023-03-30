@@ -64,9 +64,14 @@ export class MotorTypesService {
     try {
       const motors: any = await MotorType.findAll({
         raw: true,
-        include: {
-          model: MotorTolerance,
-        },
+        include: [
+          {
+            model: MotorDataConfiguration,
+          },
+          {
+            model: MotorTolerance,
+          },
+        ],
       });
       return responseModel('motors', { motors: motors });
     } catch (error) {
