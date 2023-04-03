@@ -6,7 +6,7 @@ import {
   CreatedAt,
   UpdatedAt,
 } from 'sequelize-typescript';
-@Table({ tableName: 'motor-data' })
+@Table({ tableName: 'motor_data' })
 export class MotorData extends Model<MotorData> {
   @Column({
     allowNull: false,

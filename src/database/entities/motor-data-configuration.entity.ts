@@ -9,7 +9,7 @@ import {
 } from 'sequelize-typescript';
 import { DataType } from 'sequelize';
 import { MotorType } from './motor-type.entity';
-@Table({ tableName: 'motor-data-configurations' })
+@Table({ tableName: 'motor_data_configurations' })
 export class MotorDataConfiguration extends Model<MotorDataConfiguration> {
   @Column({
     allowNull: false,

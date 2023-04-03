@@ -37,7 +37,7 @@ export class DataConfigurationService {
           HttpStatus.CONFLICT,
         );
 
-      await MotorDataConfiguration.create({
+      const configuration = await MotorDataConfiguration.create({
         motor_type_id: dataConfiguration.motorTypeId,
         motor_data_configuration_interval_minutes:
           dataConfiguration.intervalMinutes,
@@ -64,7 +64,9 @@ export class DataConfigurationService {
         motor_data_configuration_vibration_unit: dataConfiguration.vibration,
       });
 
-      return responseModel('data configurations added successfully');
+      return responseModel('data configurations added successfully', {
+        configuration,
+      });
     } catch (error) {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }

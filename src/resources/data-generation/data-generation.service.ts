@@ -23,6 +23,10 @@ export class DataGenerationService {
         where: {
           motor_type_id: motorId,
         },
+        include: {
+          model: MotorType,
+        },
+        raw: true,
       });
 
       if (!dataConfigurations)
@@ -51,8 +55,6 @@ export class DataGenerationService {
         );
       };
       let message = '';
-      console.log('=> action ', action);
-
       if (action == 'start') {
         message = 'start';
         const updateData = async () => {
@@ -175,11 +177,11 @@ export class DataGenerationService {
                 dataConfigurations.motor_data_configuration_vibration_unit,
               ),
             });
-            console.log(
-              `running cronjob : ${
-                dataConfigurations['motorType.motor_type_name']
-              }  @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-            );
+            // console.log(
+            //   `running cronjob : ${
+            //     dataConfigurations['motorType.motor_type_name']
+            //   }  @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+            // );
           } catch (error) {
             console.log('error in interval', error.message);
           }
@@ -192,7 +194,6 @@ export class DataGenerationService {
           dataConfigurations['motor_data_configuration_interval_seconds'];
         const interval =
           minutes === 0 ? seconds * 1000 : 60 * minutes * 1000 + seconds * 1000;
-
         this.cronService.addCronJob(
           dataConfigurations['motorType.motor_type_name'],
           interval,

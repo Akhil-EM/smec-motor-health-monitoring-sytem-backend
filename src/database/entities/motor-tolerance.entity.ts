@@ -9,7 +9,7 @@ import {
   BelongsTo,
 } from 'sequelize-typescript';
 import { MotorType } from './motor-type.entity';
-@Table({ tableName: 'motor-tolerances' })
+@Table({ tableName: 'motor_tolerances' })
 export class MotorTolerance extends Model<MotorTolerance> {
   @Column({
     allowNull: false,

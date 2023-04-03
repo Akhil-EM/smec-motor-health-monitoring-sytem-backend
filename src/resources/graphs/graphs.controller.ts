@@ -21,10 +21,4 @@ export class GraphsController {
   findOne(@Param() motorPrams: GetGraphDto, @Query('date') date: string) {
     return this.graphsService.getData(motorPrams, date);
   }
-
-  @Get('/data/dashboard/:parameter')
-  // @UsePipes(new GetGraphPipe())
-  dashBoard(@Param() motorPram: ParamsDto) {
-    return this.graphsService.getDashBoardData(motorPram);
-  }
 }

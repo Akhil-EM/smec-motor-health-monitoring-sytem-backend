@@ -19,15 +19,10 @@ export class GraphsService {
         );
 
         date = date.replace('T', ' ') + ':59';
-        const [data, meta] = await sequelize.query(
-          'SELECT ' +
-            condition.attributes[0] +
-            ',' +
-            condition.attributes[1] +
-            ' FROM `motor-data` WHERE motor_data_created_at <= "' +
-            date +
-            '";',
-        );
+        const [data, meta] = await sequelize.query(`
+          SELECT ${condition.attributes.join(',')}
+          FROM motor_data 
+          WHERE motor_data_created_at <= "${date}"`);
         graphData = data;
       } else {
         graphData = await MotorData.findOne(
@@ -44,105 +39,62 @@ export class GraphsService {
       throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
     }
   }
-
-  async getDashBoardData(motorParam: ParamsDto) {
-    try {
-      const motors: any = await MotorType.findAll({
-        attributes: ['motor_type_id', 'motor_type_name'],
-        raw: true,
-        // include: {
-        //   model: MotorTolerance,
-        // },
-      });
-
-      const graphDataSet = [];
-      await Promise.all(
-        motors.map(async (motor) => {
-          const graphData = await MotorData.findOne(
-            getSelectCondition(motor['motor_type_id'], motorParam.parameter),
-          );
-          motor.dataSet = graphData;
-          graphDataSet.push(motor);
-        }),
-      );
-
-      return responseModel('motor types', { graphDataSet });
-      // return graphData;
-    } catch (error) {
-      console.log(error);
-      throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
-    }
-  }
 }
 
 //get select condition based on parameter
-function getSelectCondition(motrId: number, parameter: string): any {
-  const motorCondition = !motrId ? {} : { motor_type_id: motrId };
+function getSelectCondition(motorId: number, parameter: string): any {
+  const motorCondition = !motorId ? {} : { motor_type_id: motorId };
   const testCondition: any = {
-    attributes: ['*', 'motor_data_created_at'],
+    attributes: [
+      '*',
+      'motor_type_id',
+      'motor_data_id',
+      'motor_data_created_at',
+    ],
     where: motorCondition,
     order: [['motor_data_created_at', 'DESC']],
     raw: true,
   };
 
+  const removeArrayElement = (element) =>
+    testCondition.attributes.filter((attribute) => attribute !== element); //removes * from array
+
   switch (parameter) {
     case 'input-voltage':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_input_voltage',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_input_voltage');
       break;
     case 'frequency':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_frequency',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_frequency');
       break;
     case 'rated-current':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_rated_current',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_rated_current');
       break;
     case 'starting-current':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_starting_current',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_starting_current');
       break;
     case 'load':
-      testCondition.attributes = [];
-      testCondition.attributes.push('motor_data_load', 'motor_data_created_at');
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_load');
       break;
     case 'rpm':
-      testCondition.attributes = [];
-      testCondition.attributes.push('motor_data_rpm', 'motor_data_created_at');
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_rpm');
       break;
     case 'bearing-condition':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_bearing_condition',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_bearing_condition');
       break;
     case 'temperature':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_temperature',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_temperature');
       break;
     case 'vibration':
-      testCondition.attributes = [];
-      testCondition.attributes.push(
-        'motor_data_vibration',
-        'motor_data_created_at',
-      );
+      testCondition.attributes = removeArrayElement('*');
+      testCondition.attributes.push('motor_data_vibration');
   }
-
   return testCondition;
 }
