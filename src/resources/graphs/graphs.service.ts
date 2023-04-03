@@ -37,6 +37,7 @@ export class GraphsService {
 
       return responseModel('motor data', {
         graphData: graphData,
+        name:'akhil'
       });
     } catch (error) {
       console.log(error);
