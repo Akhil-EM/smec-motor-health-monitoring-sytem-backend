@@ -91,6 +91,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_input_voltage',
         'motor_data_created_at',
       );
@@ -99,6 +100,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_frequency',
         'motor_data_created_at',
       );
@@ -107,6 +109,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_rated_current',
         'motor_data_created_at',
       );
@@ -115,6 +118,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_starting_current',
         'motor_data_created_at',
       );
@@ -123,6 +127,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_load',
         'motor_data_created_at',
       );
@@ -131,6 +136,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_rpm',
         'motor_data_created_at',
       );
@@ -139,6 +145,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_bearing_condition',
         'motor_data_created_at',
       );
@@ -147,6 +154,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_temperature',
         'motor_data_created_at',
       );
@@ -155,6 +163,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
       testCondition.attributes = [];
       testCondition.attributes.push(
         'motor_data_id',
+        'motor_type_id',
         'motor_data_vibration',
         'motor_data_created_at',
       );
