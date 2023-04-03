@@ -20,7 +20,7 @@ export class GraphsService {
 
         date = date.replace('T', ' ') + ':59';
         const [data, meta] = await sequelize.query(
-          'SELECT motor_data_id,' +
+          'SELECT ' +
             condition.attributes[0] +
             ',' +
             condition.attributes[1] +
@@ -80,7 +80,7 @@ export class GraphsService {
 function getSelectCondition(motrId: number, parameter: string): any {
   const motorCondition = !motrId ? {} : { motor_type_id: motrId };
   const testCondition: any = {
-    attributes: ['*', 'motor_data_created_at'],
+    attributes: ['*', 'motor_data_id,motor_data_created_at'],
     where: motorCondition,
     order: [['motor_data_created_at', 'DESC']],
     raw: true,
