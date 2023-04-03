@@ -22,7 +22,8 @@ export class GraphsService {
         const [data, meta] = await sequelize.query(`
           SELECT ${condition.attributes.join(',')}
           FROM motor_data 
-          WHERE motor_data_created_at <= "${date}"`);
+          WHERE motor_data_created_at <= "${date}"
+          AND motor_type_id = ${motorPrams.motorId}`);
         graphData = data;
       } else {
         graphData = await MotorData.findOne(
