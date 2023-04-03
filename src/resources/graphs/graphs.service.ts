@@ -89,84 +89,84 @@ function getSelectCondition(motrId: number, parameter: string): any {
   switch (parameter) {
     case 'input-voltage':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
         'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'frequency':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_frequency',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'rated-current':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_rated_current',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'starting-current':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_starting_current',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'load':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_load',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'rpm':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_rpm',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'bearing-condition':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_bearing_condition',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'temperature':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_temperature',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
       break;
     case 'vibration':
       testCondition.attributes = [];
-      testCondition.attributes.push(
+      testCondition.attributes = [
         'motor_data_id',
         'motor_type_id',
-        'motor_data_vibration',
+        'motor_data_input_voltage',
         'motor_data_created_at',
-      );
+      ];
   }
 
   return testCondition;
