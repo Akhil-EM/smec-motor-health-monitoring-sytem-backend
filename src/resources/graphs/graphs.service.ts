@@ -37,7 +37,7 @@ export class GraphsService {
 
       return responseModel('motor data', {
         graphData: graphData,
-        name:'akhil'
+        name: 'akhil',
       });
     } catch (error) {
       console.log(error);
@@ -80,7 +80,7 @@ export class GraphsService {
 function getSelectCondition(motrId: number, parameter: string): any {
   const motorCondition = !motrId ? {} : { motor_type_id: motrId };
   const testCondition: any = {
-    attributes: ['*', 'motor_data_id,motor_data_created_at'],
+    attributes: ['*', 'motor_data_created_at'],
     where: motorCondition,
     order: [['motor_data_created_at', 'DESC']],
     raw: true,
@@ -90,6 +90,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'input-voltage':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_input_voltage',
         'motor_data_created_at',
       );
@@ -97,6 +98,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'frequency':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_frequency',
         'motor_data_created_at',
       );
@@ -104,6 +106,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'rated-current':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_rated_current',
         'motor_data_created_at',
       );
@@ -111,21 +114,31 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'starting-current':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_starting_current',
         'motor_data_created_at',
       );
       break;
     case 'load':
       testCondition.attributes = [];
-      testCondition.attributes.push('motor_data_load', 'motor_data_created_at');
+      testCondition.attributes.push(
+        'motor_data_id',
+        'motor_data_load',
+        'motor_data_created_at',
+      );
       break;
     case 'rpm':
       testCondition.attributes = [];
-      testCondition.attributes.push('motor_data_rpm', 'motor_data_created_at');
+      testCondition.attributes.push(
+        'motor_data_id',
+        'motor_data_rpm',
+        'motor_data_created_at',
+      );
       break;
     case 'bearing-condition':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_bearing_condition',
         'motor_data_created_at',
       );
@@ -133,6 +146,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'temperature':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_temperature',
         'motor_data_created_at',
       );
@@ -140,6 +154,7 @@ function getSelectCondition(motrId: number, parameter: string): any {
     case 'vibration':
       testCondition.attributes = [];
       testCondition.attributes.push(
+        'motor_data_id',
         'motor_data_vibration',
         'motor_data_created_at',
       );
