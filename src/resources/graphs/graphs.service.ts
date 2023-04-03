@@ -20,7 +20,7 @@ export class GraphsService {
 
         date = date.replace('T', ' ') + ':59';
         const [data, meta] = await sequelize.query(
-          'SELECT ' +
+          'SELECT motor_data_id,' +
             condition.attributes[0] +
             ',' +
             condition.attributes[1] +
