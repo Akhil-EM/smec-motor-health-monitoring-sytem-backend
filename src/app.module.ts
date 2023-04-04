@@ -11,6 +11,7 @@ import { DataGenerationModule } from './resources/data-generation/data-generatio
 import { CronJobService } from './common/helpers/cron-job.service';
 import { ScheduleModule } from '@nestjs/schedule';
 import { GraphsModule } from './resources/graphs/graphs.module';
+import { ExcelModule } from './resources/excel/excel.module';
 
 @Module({
   imports: [
@@ -21,6 +22,7 @@ import { GraphsModule } from './resources/graphs/graphs.module';
     DataConfigurationModule,
     DataGenerationModule,
     GraphsModule,
+    ExcelModule,
   ],
   controllers: [AppController],
   providers: [

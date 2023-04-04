@@ -22,10 +22,8 @@ export class HttpExceptionFilter implements ExceptionFilter {
         timeStamp: new Date(),
         error: [exception.message],
       });
-    }
-
-    if (method === 'PATCH' || method === 'PUT') {
-      response.status(status).json({
+    } else if ([400, 404, 406].includes(status)) {
+      return response.status(status).json({
         statusCode: status,
         success: false,
         timeStamp: new Date(),

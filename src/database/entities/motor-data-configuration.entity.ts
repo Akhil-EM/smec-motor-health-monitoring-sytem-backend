@@ -105,6 +105,18 @@ export class MotorDataConfiguration extends Model<MotorDataConfiguration> {
   })
   motor_data_generation_started: boolean;
 
+  @Column({
+    allowNull: false,
+    defaultValue: '',
+  })
+  excel_path: string;
+
+  @Column({
+    allowNull: false,
+    defaultValue: false,
+  })
+  take_excel_data: boolean;
+
   @CreatedAt public motor_data_configuration_created_at: Date;
 
   @UpdatedAt public motor_data_configuration_updated_at: Date;
