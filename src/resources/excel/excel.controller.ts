@@ -12,6 +12,7 @@ import {
 import { ExcelService } from './excel.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/common/config/multer.config';
+import { singleMulterOptions } from 'src/common/config/single-multer.config';
 
 @Controller('excel')
 export class ExcelController {
@@ -24,6 +25,12 @@ export class ExcelController {
     @Param('motorId') motorId: number,
   ) {
     return this.excelService.upload(file, motorId);
+  }
+
+  @Post('/upload')
+  @UseInterceptors(FileInterceptor('file', singleMulterOptions))
+  uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.excelService.uploadFile(file);
   }
 
   @Get('/:motorId')
