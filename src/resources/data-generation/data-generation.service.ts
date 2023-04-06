@@ -6,10 +6,11 @@ import responseModel from 'src/common/models/api.model';
 import { MotorDataConfiguration } from 'src/database/entities/motor-data-configuration.entity';
 import { MotorType } from 'src/database/entities/motor-type.entity';
 import { MotorData } from 'src/database/entities/motor-data.entity';
+import * as xlsx from 'xlsx';
 @Injectable()
 export class DataGenerationService {
   constructor(private readonly cronService: CronJobService) {}
-  async stopOrGenerateData(motorId: string, action: string) {
+  async stopOrGenerateData(motorId: string, action: string, useExcel: boolean) {
     try {
       const motorType = await MotorType.findOne({
         where: {
@@ -57,7 +58,35 @@ export class DataGenerationService {
       let message = '';
       if (action == 'start') {
         message = 'start';
-        const updateData = async () => {
+        let excelPath;
+        const excelData: any = [];
+        if (useExcel) {
+          //check if there is a excel file added
+          const dataConfig = await MotorDataConfiguration.findOne({
+            where: {
+              motor_type_id: motorId,
+            },
+            raw: true,
+          });
+          excelPath = dataConfig.excel_path;
+          if (!excelPath)
+            throw new HttpException(
+              'Please upload a excel file to continue.',
+              HttpStatus.NOT_FOUND,
+            );
+          const file = xlsx.readFile(excelPath);
+          const sheets = file.SheetNames;
+
+          for (let i = 0; i < sheets.length; i++) {
+            const temp = xlsx.utils.sheet_to_json(
+              file.Sheets[file.SheetNames[i]],
+            );
+            for (let m = 0; m < temp.length; m++) {
+              excelData.push(temp[m]);
+            }
+          }
+        }
+        const generateDataByConfig = async () => {
           try {
             //get configurations again if there is an update in configuration while
             //generating data
@@ -177,28 +206,78 @@ export class DataGenerationService {
                 dataConfigurations.motor_data_configuration_vibration_unit,
               ),
             });
-            // console.log(
-            //   `running cronjob : ${
-            //     dataConfigurations['motorType.motor_type_name']
-            //   }  @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
-            // );
+            console.log(
+              `running cronjob : ${
+                dataConfigurations['motorType.motor_type_name']
+              }  @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+            );
           } catch (error) {
             console.log('error in interval', error.message);
           }
         };
 
-        //start cron job
+        const generateDataByExcel = async () => {
+          try {
+            const dataCount = await MotorData.count({
+              where: {
+                motor_type_id: parseInt(motorId),
+              },
+            });
+
+            //stop cron job  if count reach max
+            if (dataCount === excelData.length) {
+              this.cronService.deleteCronJob(
+                dataConfigurations['motorType.motor_type_name'],
+              );
+            } else {
+              //add data
+              await MotorData.create({
+                motor_type_id: parseInt(motorId),
+                motor_data_bearing_condition:
+                  excelData[dataCount].bearing_condition,
+                motor_data_frequency: excelData[dataCount].frequency,
+                motor_data_input_voltage: excelData[dataCount].input_voltage,
+                motor_data_load: excelData[dataCount].load,
+                motor_data_rated_current: excelData[dataCount].rated_current,
+                motor_data_rpm: excelData[dataCount].rpm,
+                motor_data_starting_current:
+                  excelData[dataCount].starting_current,
+                motor_data_temperature: excelData[dataCount].temperature,
+                motor_data_vibration: excelData[dataCount].vibration,
+              });
+              console.log(
+                `running cronjob : ${
+                  dataConfigurations['motorType.motor_type_name']
+                }  @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()}`,
+              );
+            }
+          } catch (error) {
+            if (error instanceof HttpException) throw error;
+            throw new HttpException(error, HttpStatus.INTERNAL_SERVER_ERROR);
+          }
+        };
+
+        // start cron job
         const minutes =
           dataConfigurations['motor_data_configuration_interval_minutes'];
         const seconds =
           dataConfigurations['motor_data_configuration_interval_seconds'];
         const interval =
           minutes === 0 ? seconds * 1000 : 60 * minutes * 1000 + seconds * 1000;
-        this.cronService.addCronJob(
-          dataConfigurations['motorType.motor_type_name'],
-          interval,
-          updateData,
-        );
+
+        if (useExcel) {
+          this.cronService.addCronJob(
+            dataConfigurations['motorType.motor_type_name'],
+            interval,
+            generateDataByExcel,
+          );
+        } else {
+          this.cronService.addCronJob(
+            dataConfigurations['motorType.motor_type_name'],
+            interval,
+            generateDataByConfig,
+          );
+        }
       } else {
         message = 'end';
         await updateDataConfiguration(false);

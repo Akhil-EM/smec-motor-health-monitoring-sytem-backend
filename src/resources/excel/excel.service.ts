@@ -38,7 +38,6 @@ export class ExcelService {
         );
       }
 
-
       //remove old file if exits
       const oldFileCheck = await MotorDataConfiguration.findOne({
         where: {
