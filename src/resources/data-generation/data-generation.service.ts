@@ -44,16 +44,17 @@ export class DataGenerationService {
       });
 
       const updateDataConfiguration = async (started: boolean) => {
-        await MotorDataConfiguration.update(
-          {
-            motor_data_generation_started: started,
+        const updateCondition: any = {
+          motor_data_generation_started: started,
+        };
+
+        if (useExcel) updateCondition.take_excel_data = true;
+        else updateCondition.take_excel_data = false;
+        await MotorDataConfiguration.update(updateCondition, {
+          where: {
+            motor_type_id: motorId,
           },
-          {
-            where: {
-              motor_type_id: motorId,
-            },
-          },
-        );
+        });
       };
       let message = '';
       if (action == 'start') {

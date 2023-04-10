@@ -1,4 +1,10 @@
-import { IsNotEmpty, IsNumber, IsIn, IsString, IsBoolean } from 'class-validator';
+import {
+  IsNotEmpty,
+  IsNumber,
+  IsIn,
+  IsString,
+  IsBoolean,
+} from 'class-validator';
 export class DataConfigurationDto {
   @IsNotEmpty()
   @IsNumber()
