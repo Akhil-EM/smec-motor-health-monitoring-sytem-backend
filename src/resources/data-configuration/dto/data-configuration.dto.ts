@@ -1,4 +1,4 @@
-import { IsNotEmpty, IsNumber, IsIn, IsString } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsIn, IsString, IsBoolean } from 'class-validator';
 export class DataConfigurationDto {
   @IsNotEmpty()
   @IsNumber()
@@ -56,4 +56,8 @@ export class DataConfigurationDto {
   @IsNotEmpty()
   @IsNumber()
   public vibration: number;
+
+  @IsNotEmpty()
+  @IsBoolean()
+  public useExcel: boolean;
 }
