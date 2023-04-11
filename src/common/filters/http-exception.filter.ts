@@ -22,7 +22,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
         timeStamp: new Date(),
         error: [exception.message],
       });
-    } else if ([400, 404, 406].includes(status)) {
+    } else if ([404, 406].includes(status)) {
       return response.status(status).json({
         statusCode: status,
         success: false,

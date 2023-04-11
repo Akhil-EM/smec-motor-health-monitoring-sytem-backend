@@ -13,11 +13,11 @@ export const sequelize = new Sequelize({
   password: process.env.DB_PASSWORD,
   database: process.env.DATABASE,
   logging(sql, timing) {
-    console.log(
-      `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
-      sql,
-      '\n\n*******************************************************',
-    );
+    // console.log(
+    //   `*********** sql log @ ${new Date().toLocaleDateString()} ${new Date().toLocaleTimeString()} ***********\n\n`,
+    //   sql,
+    //   '\n\n*******************************************************',
+    // );
   },
   timezone: '+05:30',
   // logging: false,

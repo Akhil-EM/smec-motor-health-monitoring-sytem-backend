@@ -43,19 +43,44 @@ export class DataGenerationService {
         },
       });
 
-      const updateDataConfiguration = async (started: boolean) => {
-        const updateCondition: any = {
-          motor_data_generation_started: started,
-        };
-
-        if (useExcel) updateCondition.take_excel_data = true;
-        else updateCondition.take_excel_data = false;
-        await MotorDataConfiguration.update(updateCondition, {
-          where: {
-            motor_type_id: motorId,
+      if (useExcel) {
+        await MotorDataConfiguration.update(
+          {
+            take_excel_data: true,
           },
-        });
+          {
+            where: {
+              motor_type_id: motorId,
+            },
+          },
+        );
+      } else {
+        await MotorDataConfiguration.update(
+          {
+            take_excel_data: false,
+          },
+          {
+            where: {
+              motor_type_id: motorId,
+            },
+          },
+        );
+      }
+
+      const updateDataConfiguration = async (started: boolean) => {
+        
+        await MotorDataConfiguration.update(
+          {
+            motor_data_generation_started: started,
+          },
+          {
+            where: {
+              motor_type_id: motorId,
+            },
+          },
+        );
       };
+
       let message = '';
       if (action == 'start') {
         message = 'start';
@@ -75,6 +100,8 @@ export class DataGenerationService {
               'Please upload a excel file to continue.',
               HttpStatus.NOT_FOUND,
             );
+
+          await updateDataConfiguration(true);
           const file = xlsx.readFile(excelPath);
           const sheets = file.SheetNames;
 

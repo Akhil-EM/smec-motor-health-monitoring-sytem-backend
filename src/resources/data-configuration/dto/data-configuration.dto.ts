@@ -62,8 +62,4 @@ export class DataConfigurationDto {
   @IsNotEmpty()
   @IsNumber()
   public vibration: number;
-
-  @IsNotEmpty()
-  @IsBoolean()
-  public useExcel: boolean;
 }

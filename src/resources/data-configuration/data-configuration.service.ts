@@ -62,7 +62,6 @@ export class DataConfigurationService {
         motor_data_configuration_temperature_unit:
           dataConfiguration.temperatureUnit,
         motor_data_configuration_vibration_unit: dataConfiguration.vibration,
-        take_excel_data: dataConfiguration.useExcel,
       });
 
       return responseModel('data configurations added successfully', {
