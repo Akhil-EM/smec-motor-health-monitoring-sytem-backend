@@ -31,7 +31,6 @@ export class ExcelController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file', singleMulterOptions))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
-    console.log("herrererre =>");
     
     return this.excelService.uploadFile(file);
   }
