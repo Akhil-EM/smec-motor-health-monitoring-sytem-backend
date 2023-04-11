@@ -13,6 +13,7 @@ import { ExcelService } from './excel.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { multerOptions } from 'src/common/config/multer.config';
 import { singleMulterOptions } from 'src/common/config/single-multer.config';
+import { log } from 'console';
 
 @Controller('excel')
 export class ExcelController {
@@ -30,6 +31,8 @@ export class ExcelController {
   @Post('/upload')
   @UseInterceptors(FileInterceptor('file', singleMulterOptions))
   uploadFile(@UploadedFile() file: Express.Multer.File) {
+    console.log("herrererre =>");
+    
     return this.excelService.uploadFile(file);
   }
 
